@@ -34,7 +34,7 @@ sounds = []
 
 
 def sounds_list():
-    path = "/home/alex/PycharmProjects/soundBrowser/Sounds/"
+    path = os.getcwd()+"/Sounds/"
     dir_sounds = os.listdir(path)
     for i, item in enumerate(dir_sounds):
         obj = MP3(path+os.path.basename(item))
