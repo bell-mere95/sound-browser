@@ -33,16 +33,19 @@ default_obj = os.path.abspath("alarm.mp3")
 sounds = []
 
 
-def sounds_list():
+def create_sounds_list():
     path = os.getcwd()+"/Sounds/"
+    # path = "/home/alex/PycharmProjects/soundBrowser/Sounds/"
     dir_sounds = os.listdir(path)
     for i, item in enumerate(dir_sounds):
         obj = MP3(path+os.path.basename(item))
         s = Sound(os.path.basename(item), int(obj.info.length), os.path.abspath(os.path.join(path, os.path.basename(item))))
         sounds.append(s)
-        print(i, ". ", s.getname())
-        if VERBOSE:
-            print(s.getpath())
+
+
+def print_sounds_list(mylist):
+    for i, item in enumerate(mylist):
+        print(i, ".", item.getname())
 
 
 def input_numbers():
@@ -53,18 +56,23 @@ def input_numbers():
             return num
         elif num == "":
             return -1
-        print("Pick a number from 0 to ".join(str(len(sounds))))
+        print("Letters are not accepted")
+        print("Pick a number from 0 to ", len(sounds) - 1)
 
 
 def play_or_exit():
+    if not sounds:
+        create_sounds_list()
+    print_sounds_list(sounds)
     while True:
-        print("Choose a number from the list below or click enter to continue \n")
-        sounds_list()
+        print("Choose a number from the list above or click enter to continue \n")
         ans = input_numbers()
         if ans == -1:
             break
         elif 0 <= ans < len(sounds):
             s_player(sounds[ans])
+        else:
+            print("Pick a number from 0 to ", len(sounds)-1)
 
 
 def num_or_empty(s):
