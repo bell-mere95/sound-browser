@@ -27,19 +27,6 @@ def create_connection(db_file):
     return conn
 
 
-'''def check_for_table(conn, name_t):
-    try:
-        cur = conn.cursor()
-        sql = """SELECT name FROM sqlite_master WHERE type=’table’ AND name=?;"""
-        tables = cur.execute(sql, name_t).fetchall()
-        if tables:
-            print("True")
-            return True
-    except Error:
-        print(Error)
-        return False'''
-
-
 def create_table(conn, sql_com):
     try:
         c = conn.cursor()
