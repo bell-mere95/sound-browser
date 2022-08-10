@@ -5,8 +5,6 @@ from sqlite3 import Error
 from mutagen.mp3 import MP3
 from SoundBrowser import input_numbers
 
-VERBOSE = False  # Set True for debugging
-
 
 def sql_create_table(t_name):
     sql = "CREATE TABLE IF NOT EXISTS %s (id integer PRIMARY KEY,name text NOT NULL, duration NOT NULL, path text NOT NULL); " % t_name
