@@ -97,7 +97,9 @@ class PlayOrExit:
             s_player(song)
 
     def home(self):
-        pass
+        self.frame.destroy()
+        self.frameB.destroy()
+        MyGui(self.master)
 
     def print_sound_list(self):
         try:
@@ -107,19 +109,15 @@ class PlayOrExit:
             conn.commit()
             for sound in sounds:
                 self.mylist.insert(sound[0], sound[1])
-                # Label(self.frame, text=str(sound[0]) + " . " + str(sound[1])).pack()
-                # print(sound[0], ". ", sound[1])
             self.mylist.pack(padx=10, pady=10, expand=YES, fill="both")
             self.mylist.bind("<<ListboxSelect>>", self.soundChoice())
-            # print(music_list.curselection())
-            # Pass the event to soundChoice function ----- curselection() doesn't return anything for some reason
         except Error:
             print("Fail to print sounds list")
 
     def soundChoice(self):
         ls = self.mylist.curselection()
         for item in ls:
-            print("You have selected " + str(item + 1))
+            SoundDB.set_default(conn, search_in_db(item+1))
 
 
 class App:
