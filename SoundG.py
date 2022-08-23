@@ -9,6 +9,7 @@ import vlc
 
 conn = sqlite3.connect('sounds.db')
 cur = conn.cursor()
+Song = None  # presents the song number that is played
 
 
 def clear_frame(f):
@@ -81,23 +82,32 @@ class PlayOrExit:
         self.frameB.pack(fill="x", side="top")
         self.frame = Frame(self.master)
         self.frame.pack(fill="both", expand=True)
-        self.button1 = Button(self.frameB, text="Play", fg="blue", command=self.play)
-        self.button2 = Button(self.frameB, text="Return to home", fg="red", command=self.home)
+        self.button1 = Button(self.frameB, text="Play/Pause", fg="blue", command=self.play)
+        self.button2 = Button(self.frameB, text="Return", fg="red", command=self.home)
         self.button3 = Button(self.frameB, text="Submit", fg="Green", command=self.soundChoice)
         self.button1.pack(padx=10, side="left")
         self.button2.pack(padx=10, side="right")
         self.button3.pack(padx=10, anchor="n")
+        self.song = None
         self.mylist = Listbox(self.frame)
         SoundDB.create_table(conn, "sounds")
         self.print_sound_list()
 
     def play(self):
         ls = self.mylist.curselection()
+                if self.song is not None and self.song.is_playing():
+            self.song.stop()
         for item in ls:
             song = search_in_db(item+1)
-            s_player(song)
+            global Song
+            if Song == song[1]:
+                return
+            self.song = s_player(song, self.song)
+            Song = song[1]
 
     def home(self):
+        if self.song is not None:
+            self.song.stop()
         self.frame.destroy()
         self.frameB.destroy()
         MyGui(self.master)
