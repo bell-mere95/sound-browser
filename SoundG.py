@@ -35,6 +35,7 @@ def s_player(row, file=None):
         file.stop()
     sf = vlc.MediaPlayer(row[2])
     sf.play()
+    return sf
 
 
 class Welcome:
@@ -54,7 +55,7 @@ class MyGui:
         self.master = master
         self.master.geometry('380x120')
         self.frame = Frame(self.master, height=115, width=350)
-        self.frame.pack()
+        self.frame.pack(side="top", pady=15)
         self.master.title('Sound Browser - Default Song')
         self.label = Label(self.frame, text="%s is selected. Would you like to change it?" % SoundDB.get_default(conn))
         self.label.pack(side="top", pady=15)
@@ -95,7 +96,7 @@ class PlayOrExit:
 
     def play(self):
         ls = self.mylist.curselection()
-                if self.song is not None and self.song.is_playing():
+        if self.song is not None and self.song.is_playing():
             self.song.stop()
         for item in ls:
             song = search_in_db(item+1)
@@ -129,6 +130,36 @@ class PlayOrExit:
         ls = self.mylist.curselection()
         for item in ls:
             SoundDB.set_default(conn, search_in_db(item+1))
+            Success(self.master, self.song)
+
+
+class Success:
+    def __init__(self, back, song):
+        self.background = back
+        self.master = tk.Tk()
+        self.master.geometry('380x120')
+        self.master.title("Success")
+        self.frame = Frame(self.master)
+        self.frame.pack(fill="x", side="top")
+        self.frameB = Frame(self.master)
+        self.frameB.pack(fill="x", side="bottom")
+        self.label1 = Label(self.frame, text="Default song has been changed successfully!")
+        self.label1.pack(anchor="center", pady=20)
+        self.button1 = Button(self.frameB, text="Return", command=self.stay)
+        self.button2 = Button(self.frameB, text="Home", command=self.home)
+        self.button1.pack(side="left", padx=20)
+        self.button2.pack(side="right", padx=20)
+        if song is not None:
+            song.stop()
+
+    def stay(self):
+        self.master.destroy()
+
+    def home(self):
+        self.master.destroy()
+        self.background.destroy()
+        master = tk.Tk()
+        MyGui(master)
 
 
 class App:
