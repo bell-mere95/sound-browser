@@ -51,6 +51,7 @@ class Welcome:
 class MyGui:
     def __init__(self, master):
         self.master = master
+        self.master.geometry('380x120')
         self.frame = Frame(self.master, height=115, width=350)
         self.frame.pack()
         self.master.title('Sound Browser - Default Song')
@@ -74,7 +75,7 @@ class MyGui:
 class PlayOrExit:
     def __init__(self, master):
         self.master = master
-        self.master.geometry('300x700')
+        self.master.geometry('320x650')
         self.master.title('Sound List')
         self.frameB = Frame(self.master)
         self.frameB.pack(fill="x", side="top")
@@ -83,9 +84,9 @@ class PlayOrExit:
         self.button1 = Button(self.frameB, text="Play", fg="blue", command=self.play)
         self.button2 = Button(self.frameB, text="Return to home", fg="red", command=self.home)
         self.button3 = Button(self.frameB, text="Submit", fg="Green", command=self.soundChoice)
-        self.button1.pack(padx=20, side="left")
-        self.button2.pack(padx=20, side="right")
-        self.button3.pack(padx=20, anchor="n")
+        self.button1.pack(padx=10, side="left")
+        self.button2.pack(padx=10, side="right")
+        self.button3.pack(padx=10, anchor="n")
         self.mylist = Listbox(self.frame)
         SoundDB.create_table(conn, "sounds")
         self.print_sound_list()
