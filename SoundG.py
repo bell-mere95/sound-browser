@@ -165,8 +165,8 @@ class Success:
 class App:
     def __init__(self, master):
         self.master = master
-        Welcome(master)
-        self.master.after(3000, MyGui, master)
+        Welcome(self.master)
+        self.master.after(3000, MyGui, self.master)
 
 
 def main():
